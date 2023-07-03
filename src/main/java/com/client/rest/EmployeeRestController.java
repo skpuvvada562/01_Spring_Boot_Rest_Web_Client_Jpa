@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,5 +78,28 @@ CREATE TABLE employer_tble (
 			@RequestParam(defaultValue = "empName") String name) {
 		List<EmployeeTblModel> empList = empService.fetchEmployeesBySortPage(pageNo, pageSize, name);
 		return new ResponseEntity<>(empList, HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value="/deleteEmployeeById/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> deleteEmpById(@PathVariable("id") int id){
+		
+		String response=empService.deleteEmpById(id);
+		
+		return new ResponseEntity<>(response, HttpStatus.OK);
+		
+	}
+	
+	@PutMapping(value="/updateEmployeeUsingQuery", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> updateEmployeeUsingQuery(@RequestBody EmployeeTblModel model){
+		
+		String response= empService.updateEmpNameUsingQuery(model.getEmpName(), model.getEmpId());
+		
+		return new ResponseEntity<>(response,HttpStatus.CREATED);
+	}
+	
+	@GetMapping(value="/fetchEmployeeByIdUsingQuery/{empName}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EmployeeTblModel> fetchEmployeeByIdUsingQuery(@PathVariable String empName){
+		EmployeeTblModel model =empService.findByEmpName(empName);
+		return new ResponseEntity<>(model,HttpStatus.OK);
 	}
 }

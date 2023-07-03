@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,6 +71,24 @@ public class EmployeeServiceImpl implements EmployeeService{
 		Pageable pageable=PageRequest.of(pageNo, pageSize, Sort.by(name));
 		Page<EmployeeTbl> data=empRepo.findAll(pageable);
 		return data.toList().stream().map(emp->convertEntityToBean(emp)).collect(Collectors.toList());
+	}
+	
+	@Override
+	public String deleteEmpById(int id){
+		empRepo.deleteById(id);
+		return "Deleted Successfully";
+	}
+
+	@Transactional
+	@Override
+	public String updateEmpNameUsingQuery(String empName, int id) {
+		empRepo.updateEmpNameUsingQuery(empName, id);
+		return "Employee updated successully";
+	}
+
+	@Override
+	public EmployeeTblModel findByEmpName(String empName) {
+		return convertEntityToBean(empRepo.findByEmpName(empName));
 	}
 
 }

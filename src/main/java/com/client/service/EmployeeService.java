@@ -21,4 +21,11 @@ public interface EmployeeService {
 	public EmployeeTblModel fetchEmployeeById(int id);
 	
 	public List<EmployeeTblModel> fetchEmployeesBySortPage(int pageNo, int pageSize, String name);
+	
+	public String deleteEmpById(int id);
+	
+	public String updateEmpNameUsingQuery(String empName,int id);
+	
+	public EmployeeTblModel findByEmpName(String empName);
+	
 }
