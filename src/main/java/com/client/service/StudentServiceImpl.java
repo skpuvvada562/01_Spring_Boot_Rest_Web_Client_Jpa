@@ -1,5 +1,7 @@
 package com.client.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +21,13 @@ public class StudentServiceImpl implements StudentService{
 	
 	@Override
 	public Student save(Student student) {
-		// TODO Auto-generated method stub
 		return studentRepo.save(student);
+	}
+
+
+	@Override
+	public List<Student> findAllStudents() {
+		return studentRepo.findAll();
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.client.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.client.entity.Person;
@@ -8,4 +10,6 @@ import com.client.entity.Person;
 public interface PersonService {
 
 	public Person savePerson(Person person);
+	
+	public List<Person> findPersons();
 }

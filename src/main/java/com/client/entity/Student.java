@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="STUDENT_TBL")
@@ -29,6 +31,7 @@ public class Student {
 	
 	private String dept;
 	
+	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinTable(name="STUDENT_COURSE_TBL",
 	joinColumns={
