@@ -1,5 +1,6 @@
 package com.client.service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.tomcat.jni.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,8 +16,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import com.client.entity.AddressTbl;
 import com.client.entity.EmployeeTbl;
+import com.client.model.EmployeeAddressResonse;
 import com.client.model.EmployeeTblModel;
+import com.client.repository.AddressRepository;
 import com.client.repository.EmployeeRepository;
 
 @Component
@@ -24,9 +29,16 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private EmployeeRepository empRepo;
 	
+	@Autowired
+	private AddressRepository addRep;
+	
 	@Override
 	public EmployeeTbl saveEmployee(EmployeeTbl empEntity){
-		return empRepo.save(empEntity);
+		EmployeeTbl emp=empRepo.save(empEntity);
+		/*for(AddressTbl addr:empEntity.getAddList()){
+			addRep.save(addr);
+		}
+*/		return emp;
 	}
 	
 	@Override
@@ -39,6 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		emp.setEmpSalary(empModel.getEmpSalary());
 		emp.setCreatedOn(new Date());
 		emp.setLastLogin(new Date());
+		emp.setAddList(empModel.getAddressTbl());
 		return emp;
 	}
 
@@ -49,6 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		model.setEmpName(empEntity.getEmpName());
 		model.setEmpAge(empEntity.getEmpAge());
 		model.setEmpSalary(empEntity.getEmpSalary());
+		model.setAddressTbl(empEntity.getAddList());
 		return model;
 	}
 	
@@ -63,7 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		Optional<EmployeeTbl> empOptional = empRepo.findById(id);
 		if(empOptional.isPresent())
 			return convertEntityToBean(empOptional.get());
-		return new EmployeeTblModel(0, "dummy", 0, 0.0);
+		return new EmployeeTblModel(0, "dummy", 0, 0.0,Collections.emptyList());
 	}
 	
 	@Override
@@ -89,6 +103,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public EmployeeTblModel findByEmpName(String empName) {
 		return convertEntityToBean(empRepo.findByEmpName(empName));
+	}
+	
+	@Override
+	public List<EmployeeAddressResonse> findEmpAddInfo(){
+		return empRepo.findEmpAddInfo();
 	}
 
 }

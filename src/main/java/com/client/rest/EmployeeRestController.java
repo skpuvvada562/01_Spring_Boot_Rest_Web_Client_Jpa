@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.client.entity.EmployeeTbl;
+import com.client.model.EmployeeAddressResonse;
 import com.client.model.EmployeeTblModel;
 import com.client.service.EmployeeService;
 
@@ -34,6 +35,16 @@ CREATE TABLE employer_tble (
 	empSalary decimal ,
 	created_on TIMESTAMP,
         last_login TIMESTAMP 
+);
+
+CREATE TABLE address_tble (
+	address_id serial PRIMARY KEY,
+	flat_no INTEGER,
+	street VARCHAR(50),
+	state VARCHAR(50),
+	city VARCHAR(50) ,
+	country VARCHAR(50) ,
+    created_on TIMESTAMP
 );
 	 */
 	
@@ -101,5 +112,11 @@ CREATE TABLE employer_tble (
 	public ResponseEntity<EmployeeTblModel> fetchEmployeeByIdUsingQuery(@PathVariable String empName){
 		EmployeeTblModel model =empService.findByEmpName(empName);
 		return new ResponseEntity<>(model,HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/fetchEmployeeAddressInfo", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<EmployeeAddressResonse>> fetchEmployeeAddressInfo(){
+		List<EmployeeAddressResonse> response =empService.findEmpAddInfo();
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 }

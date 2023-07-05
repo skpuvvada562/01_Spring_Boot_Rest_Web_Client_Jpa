@@ -1,20 +1,35 @@
 package com.client.model;
 
+import java.util.List;
+
+import com.client.entity.AddressTbl;
+
 public class EmployeeTblModel {
 	private int empId;
 	private String empName;
 	private int empAge;
 	private double empSalary;
 	
+	private List<AddressTbl> addressTbl;
+	
 	public EmployeeTblModel(){
 		super();
 	}
-	public EmployeeTblModel(int empId, String empName, int empAge, double empSalary) {
+	public EmployeeTblModel(int empId, String empName, int empAge, double empSalary,List<AddressTbl> addressTbl) {
 		super();
 		this.empId = empId;
 		this.empName = empName;
 		this.empAge = empAge;
 		this.empSalary = empSalary;
+		this.addressTbl=addressTbl;
+	}
+	
+	
+	public List<AddressTbl> getAddressTbl() {
+		return addressTbl;
+	}
+	public void setAddressTbl(List<AddressTbl> addressTbl) {
+		this.addressTbl = addressTbl;
 	}
 	public int getEmpId() {
 		return empId;
@@ -43,8 +58,10 @@ public class EmployeeTblModel {
 	@Override
 	public String toString() {
 		return "EmployeeTblModel [empId=" + empId + ", empName=" + empName + ", empAge=" + empAge + ", empSalary="
-				+ empSalary + "]";
+				+ empSalary + ", addressTbl=" + addressTbl + "]";
 	}
+	
+	
 	
 	
 }

@@ -1,12 +1,16 @@
 package com.client.entity;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +31,17 @@ public class EmployeeTbl {
 	private Date createdOn;
 	@Column(name="last_login")
 	private Date lastLogin;
+	@OneToMany(targetEntity=AddressTbl.class, cascade=CascadeType.ALL)
+	@JoinColumn(name="empadd_fk",referencedColumnName="empid")
+	private List<AddressTbl> addList;
+	
+	
+	public List<AddressTbl> getAddList() {
+		return addList;
+	}
+	public void setAddList(List<AddressTbl> addList) {
+		this.addList = addList;
+	}
 	public int getEmpId() {
 		return empId;
 	}
@@ -68,7 +83,7 @@ public class EmployeeTbl {
 	@Override
 	public String toString() {
 		return "EmployeeTbl [empId=" + empId + ", empName=" + empName + ", empAge=" + empAge + ", empSalary="
-				+ empSalary + ", createdOn=" + createdOn + ", lastLogin=" + lastLogin + "]";
+				+ empSalary + ", createdOn=" + createdOn + ", lastLogin=" + lastLogin + ", addList=" + addList + "]";
 	}
 	
 	
