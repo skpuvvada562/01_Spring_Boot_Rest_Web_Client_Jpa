@@ -91,6 +91,14 @@
 			<scope>compile</scope>
 		</dependency>
 <!--  End swagger-ui is used to enable UI alternate for postman -->	
+
+<!--  Start Spring boot actuator enabled to know the health of the application -->	
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+<!--  End Spring boot actuator enabled to know the health of the application-->	
+		
 	</dependencies>
 
 	<build>

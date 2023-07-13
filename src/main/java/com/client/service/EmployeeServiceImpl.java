@@ -31,6 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private AddressRepository addRep;
 	
+	@Transactional
 	@Override
 	public EmployeeTbl saveEmployee(EmployeeTbl empEntity){
 		EmployeeTbl emp=empRepo.save(empEntity);
@@ -97,7 +98,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return "Deleted Successfully";
 	}
 
-	@Transactional
+	
 	@Override
 	public String updateEmpNameUsingQuery(String empName, int id) {
 		empRepo.updateEmpNameUsingQuery(empName, id);

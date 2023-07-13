@@ -21,4 +21,8 @@ public class Application {
 						.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 						.build();
 	}
+	
+	/**
+	 * enabled actuators for this project http://localhost:9293/actuator
+	 */
 }
