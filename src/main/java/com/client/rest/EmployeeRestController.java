@@ -2,6 +2,8 @@ package com.client.rest;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,35 +27,15 @@ import com.client.service.EmployeeService;
 @RequestMapping("/api")
 public class EmployeeRestController {
 
-	/**
-	 * select * from employer_tble
-
-CREATE TABLE employer_tble (
-	empId serial PRIMARY KEY,
-	empName VARCHAR ( 50 ) UNIQUE NOT NULL,
-	empAge INTEGER,
-	empSalary decimal ,
-	created_on TIMESTAMP,
-        last_login TIMESTAMP 
-);
-
-CREATE TABLE address_tble (
-	address_id serial PRIMARY KEY,
-	flat_no INTEGER,
-	street VARCHAR(50),
-	state VARCHAR(50),
-	city VARCHAR(50) ,
-	country VARCHAR(50) ,
-    created_on TIMESTAMP
-);
-	 */
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeRestController.class);
+
 	@Autowired
 	private EmployeeService empService;
 	
 	@PostMapping(value="/save", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EmployeeTblModel> saveEmployee(@RequestBody EmployeeTblModel model){
-		
+		LOGGER.info("==Employee model==="+model);
 		EmployeeTbl  empEntity=empService.convertBeanToEntity(model);
 		empEntity=empService.saveEmployee(empEntity);
 		model= empService.convertEntityToBean(empEntity);
@@ -64,12 +46,14 @@ CREATE TABLE address_tble (
 	@GetMapping(value="/fetchEmployees", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<EmployeeTblModel>> fetchAllEmployees(){
 		List<EmployeeTblModel> empList=empService.fetchAllEmployees();
+		LOGGER.info("==fetchAllEmployees==="+empList);
 		return new ResponseEntity<>(empList,HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/fetchEmployees/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EmployeeTblModel> fetchEmployeeById(@PathVariable int id){
 		EmployeeTblModel empModel=empService.fetchEmployeeById(id);
+				LOGGER.info("==fetchEmployeeById==="+empModel);
 		return new ResponseEntity<>(empModel,HttpStatus.OK);
 	}
 	
