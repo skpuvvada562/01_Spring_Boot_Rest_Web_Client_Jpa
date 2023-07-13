@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.apache.tomcat.jni.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import com.client.entity.AddressTbl;
 import com.client.entity.EmployeeTbl;
+import com.client.exception.NoDataFoundException;
 import com.client.model.EmployeeAddressResonse;
 import com.client.model.EmployeeTblModel;
 import com.client.repository.AddressRepository;
@@ -89,7 +88,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	@Override
 	public String deleteEmpById(int id){
+		try{
 		empRepo.deleteById(id);
+		}catch(Exception e){
+			throw new NoDataFoundException("employee id "+id+" not found");
+		}
+		
 		return "Deleted Successfully";
 	}
 
