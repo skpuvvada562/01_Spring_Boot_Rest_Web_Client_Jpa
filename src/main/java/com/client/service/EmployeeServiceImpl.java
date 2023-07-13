@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private AddressRepository addRep;
 	
-	@Transactional
+	@org.springframework.transaction.annotation.Transactional
 	@Override
 	public EmployeeTbl saveEmployee(EmployeeTbl empEntity){
 		EmployeeTbl emp=empRepo.save(empEntity);
