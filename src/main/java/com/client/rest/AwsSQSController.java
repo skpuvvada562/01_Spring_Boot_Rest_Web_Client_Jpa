@@ -1,5 +1,7 @@
 package com.client.rest;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.client.model.EmployeeTblModel;
+import com.client.service.EmployeeService;
+
 @RestController
 @RequestMapping("/aws/sqs")
 public class AwsSQSController {
@@ -26,6 +31,9 @@ public class AwsSQSController {
 	@Autowired
 	private QueueMessagingTemplate template;
 	
+	@Autowired
+	private EmployeeService empService;
+	
 	@Value("${aws.sqs.endpoint.url}")
 	private String endPointUrl;
 	
@@ -33,6 +41,15 @@ public class AwsSQSController {
 	public ResponseEntity<String> sendMessage(@PathVariable String message){
 		
 		template.send(endPointUrl,MessageBuilder.withPayload(message).build());
+		
+		return new ResponseEntity<>("Successfully Delivered",HttpStatus.CREATED);
+		
+	}
+	
+	@GetMapping(value="/sendEmp", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> sendEmployeeInfo(){
+		List<EmployeeTblModel> empList=empService.fetchAllEmployees();
+		template.send(endPointUrl,MessageBuilder.withPayload(empList).build());
 		
 		return new ResponseEntity<>("Successfully Delivered",HttpStatus.CREATED);
 		
